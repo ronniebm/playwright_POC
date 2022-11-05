@@ -14,7 +14,8 @@ class EnvironmentPage:
     def load(self) -> None:
         self.PAGE.goto(self.URL)
 
-    def set_client_and_service_area(self, client: str, service_area: str) -> None:
+    def set_client_and_service_area(self, client: str, service_area: str) -> Page:
         self.CLIENT_DD.select_option(label=client)
         self.SERVICE_AREA_DD.select_option(label=service_area)
         self.SUBMIT_BUTTON.click()
+        return self.PAGE
