@@ -14,7 +14,8 @@ class LoginPage:
     def load(self) -> None:
         self.PAGE.goto(self.URL)
 
-    def login(self, username: str, password: str) -> None:
+    def login(self, username: str, password: str) -> Page:
         self.USERNAME_INPUT.fill(username)
         self.PASSWORD_INPUT.fill(password)
         self.SIGN_IN_BUTTON.click()
+        return self.PAGE
