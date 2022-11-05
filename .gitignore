@@ -1,0 +1,4 @@
+# gitignore config.
+./.pytest_cache
+./venv
+./.idea
