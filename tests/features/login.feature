@@ -1,7 +1,7 @@
 @login
-Feature: ICyte Web Login
+Feature: login feature
 
-  Scenario: login
+  Scenario: login scenario
     Given the icyte login page is displayed
     When the user performs a log in
     And the user set client and service area

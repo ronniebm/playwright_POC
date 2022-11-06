@@ -1,9 +1,10 @@
 from playwright.sync_api import Page
+from tests.environment_vars import *
 
 
 class LoginPage:
 
-    URL = 'https://qa-icyte-sparc.integrichain.net/non-sso-login'
+    URL = f'{ENV_URL}/non-sso-login'
 
     def __init__(self, page: Page) -> None:
         self.PAGE = page
