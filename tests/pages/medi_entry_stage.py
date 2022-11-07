@@ -2,7 +2,7 @@ from playwright.sync_api import Page
 from tests.environment_vars import *
 
 
-class EntryPage:
+class EntryStage:
 
     URL = f'{ENV_URL}/medicaid/invoices/entry'
 
