@@ -6,11 +6,13 @@ import os
 load_dotenv()
 
 # Environment settings.
-ENV_URL = os.getenv('ENV_URL')
+ENV = os.getenv('ENV')
+ENV_URL = os.getenv(f'{ENV}_ENV_URL')
+CLIENT = os.getenv('CLIENT')
 
 # User credential settings.
-ANALYST_CREDENTIALS = (os.getenv('ANALYST_NAME'), os.getenv('ANALYST_PASS'))
-MANAGER_CREDENTIALS = (os.getenv('MANAGER_NAME'), os.getenv('MANAGER_PASS'))
+ANALYST_CREDENTIALS = (os.getenv(f'{ENV}_ANALYST_NAME'), os.getenv(f'{ENV}_ANALYST_PASS'))
+MANAGER_CREDENTIALS = (os.getenv(f'{ENV}_MANAGER_NAME'), os.getenv(f'{ENV}_MANAGER_PASS'))
 
 # Client and Service settings.
-CLIENT_AND_SERVICE = (os.getenv('CLIENT_NAME'), os.getenv('SERVICE_NAME'))
+CLIENT_AND_SERVICE = (os.getenv(f'CLIENT_{CLIENT}'), os.getenv('SERVICE'))
