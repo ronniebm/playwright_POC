@@ -10,13 +10,7 @@ import time
 
 
 # Scenarios
-# scenarios('../features/products.feature')
-
-def get_user(role: str):
-    if role == 'ANALYST':
-        return ANALYST_CREDENTIALS
-    if role == 'MANAGER':
-        return MANAGER_CREDENTIALS
+scenarios('../features/login.feature')
 
 
 # Given Steps
@@ -45,5 +39,5 @@ def step_impl(context: BrowserContext):
 @then('is redirected to the entry page')
 def step_impl(context: BrowserContext):
     entry_page = context.current_page
-    entry_page.create_new_invoice()
-    time.sleep(6)
+    context.storage_state(path="state.json")
+    time.sleep(10)

@@ -13,7 +13,7 @@ class EntryStage:
         self.EXPORT_BUTTON = page.locator('button[title=Export]')
 
     def load(self) -> None:
-        self.PAGE.goto(self.URL)
+        self.PAGE.goto("self.URL")
 
     def create_new_invoice(self) -> None:
         self.NEW_INVOICE_BUTTON.click()
