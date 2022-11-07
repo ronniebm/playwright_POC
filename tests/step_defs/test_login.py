@@ -37,7 +37,6 @@ def step_impl(context: BrowserContext):
 
 # Then Steps
 @then('is redirected to the entry page')
-def step_impl(context: BrowserContext):
+def step_impl(context: BrowserContext, data_files_dir):
     entry_page = context.current_page
-    context.storage_state(path="state.json")
-    time.sleep(10)
+    context.storage_state(path=f'{data_files_dir}/state.json')

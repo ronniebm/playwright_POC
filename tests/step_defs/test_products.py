@@ -12,10 +12,6 @@ scenarios('../features/products.feature')
 
 # Given Steps
 @given('the products page')
-def step_impl(context: BrowserContext, browser: Browser):
-    new_context = browser.new_context(storage_state="state.json").new_page()
-    # entry_page = EntryStage(context.pages[0])
-    products_page = ProductsPage(new_context)
+def step_impl(login_context):
+    products_page = ProductsPage(login_context)
     products_page.load()
-    # entry_page.load()
-    time.sleep(3)
