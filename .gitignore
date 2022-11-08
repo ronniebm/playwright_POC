@@ -1,4 +1,5 @@
-# gitignore config.
+tests/__pycache__/
+tests/*/__pycache__/
 .pytest_cache
 venv
 .idea
