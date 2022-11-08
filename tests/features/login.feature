@@ -1,6 +1,6 @@
-@login
 Feature: login feature
 
+  @login
   Scenario: login scenario
     Given the icyte login page is displayed
     When the user performs a log in

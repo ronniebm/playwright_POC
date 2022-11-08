@@ -1,13 +1,11 @@
 import pytest
+
 from pytest_bdd import scenarios, given, when, then, parsers
 from playwright.sync_api import BrowserContext
 from tests.pages.login import LoginPage
 from tests.pages.environment import EnvironmentPage
 from tests.pages.medi_entry_stage import EntryStage
-
 from tests.environment_vars import *
-import time
-
 
 # Scenarios
 scenarios('../features/login.feature')
@@ -28,6 +26,7 @@ def step_impl(context: BrowserContext):
     env_page = EnvironmentPage(login_page.login(*ANALYST_CREDENTIALS))
     context.current_page = env_page
 
+
 @when('the user set client and service area')
 def step_impl(context: BrowserContext):
     env_page = context.current_page
@@ -39,4 +38,4 @@ def step_impl(context: BrowserContext):
 @then('is redirected to the entry page')
 def step_impl(context: BrowserContext, data_files_dir):
     entry_page = context.current_page
-    context.storage_state(path=f'{data_files_dir}/state.json')
+    pass

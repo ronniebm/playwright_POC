@@ -11,3 +11,5 @@ class ProductsPage:
 
     def load(self) -> None:
         self.PAGE.goto(self.URL)
+
+

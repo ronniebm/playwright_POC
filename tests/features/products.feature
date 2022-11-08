@@ -1,13 +1,11 @@
-@products
 Feature: products feature
 
-#    Background:
-#      Given the icyte login page is displayed
-#      When the user performs a log in
-#      And the user set client and service area
+    @products
+    Scenario: Create product manually
+      Given I go to the products page
+      When I add a new product manually
+#      Then I confirm the product is placed in "PENDING" status
 
-    Scenario: products scenario
-      Given the products page
   #  Scenario: products scenario
   #    Given the products page is displayed
   #    When the user performs a log in

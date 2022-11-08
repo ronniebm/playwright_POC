@@ -11,7 +11,21 @@ scenarios('../features/products.feature')
 
 
 # Given Steps
-@given('the products page')
-def step_impl(login_context):
-    products_page = ProductsPage(login_context)
+@given('I go to the products page')
+def step(analyst_context):
+    products_page = ProductsPage(analyst_context)
     products_page.load()
+    analyst_context.current_page = products_page
+
+@when('I add a new product manually')
+def step(analyst_context):
+    products_page = analyst_context.current_page
+    pass
+    # products_page.add_new_product()
+    # approvals_page = ApprovalsPage(products_page.go_to_approvals())
+
+
+# @given('the products page')
+# def step_impl(login_context):
+#     products_page = ProductsPage(login_context)
+#     products_page.load()
