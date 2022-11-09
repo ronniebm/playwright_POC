@@ -1,14 +1,16 @@
 import pytest
 
 from playwright.sync_api import Browser
-from tests.environment_vars import *
+from tests.environment import *
+from tests.api import Api
+from tests.tools import Tools
 
-
-# from pytest_bdd import scenarios, given, when, then
-# from playwright.sync_api import Page, BrowserContext
-#
-# from tests.pages.login import LoginPage
-# from tests.pages.environment import EnvironmentPage
+USER_AUTH_URL: str = f'{ENV_URL}/api/auth/login/'
+ENV_AUTH_URL: str = f'{ENV_URL}/api/auth/environment/'
+HEADERS: dict = {'Content-Type': 'application/json'}
+ANALYST_DATA: dict = {"username": ANALYST_CREDENTIALS[0], "password": ANALYST_CREDENTIALS[1]}
+MANAGER_DATA: dict = {"username": MANAGER_CREDENTIALS[0], "password": MANAGER_CREDENTIALS[1]}
+CLIENT_AND_SERVICE_DATA: dict = {"client_id": 35, "service_id": 1}
 
 
 @pytest.fixture(scope='session')
@@ -25,18 +27,38 @@ def data_files_dir(tmpdir_factory):
 
 
 @pytest.fixture(scope='module')
-def analyst_context(browser: Browser, data_files_dir):
-    """ Fixture: loading the user login saved content into a new Browser context.
-    -------------------------------------------------------------------------
-    This fixture uses data_files_dir fixture to access the temp data_files_dir.
+def analyst_context(browser: Browser):
+    """ Fixture: it creates an Analyst user context in background.
+    --------------------------------------------------------------
     """
-    api_auth_user_url = f'{ENV_URL}/api/auth/login/'
-    api_auth_env_url = f'{ENV_URL}/api/auth/environment/'
-    headers = {'Content-Type': 'application/json'}
-    user_data = {"username": ANALYST_CREDENTIALS[0], "password": ANALYST_CREDENTIALS[1]}
-    client_and_service_data = {"client_id": 35, "service_id": 1}
-
-    context = browser.new_context()
-    context.request.post(api_auth_user_url, headers=headers, data=user_data)
-    context.request.post(api_auth_env_url, headers=headers, data=client_and_service_data)
+    context = browser.new_context(viewport=VIEWPORT)
+    context.request.post(USER_AUTH_URL, headers=HEADERS, data=ANALYST_DATA)
+    context.request.post(ENV_AUTH_URL, headers=HEADERS, data=CLIENT_AND_SERVICE_DATA)
     return context
+
+
+@pytest.fixture(scope='module')
+def manager_context(browser: Browser):
+    """ Fixture: it creates a Manager user context in background.
+    -------------------------------------------------------------
+    """
+    context = browser.new_context(viewport=VIEWPORT)
+    context.request.post(USER_AUTH_URL, headers=HEADERS, data=MANAGER_DATA)
+    context.request.post(ENV_AUTH_URL, headers=HEADERS, data=CLIENT_AND_SERVICE_DATA)
+    return context
+
+
+@pytest.fixture(scope='module')
+def api(analyst_context):
+    """ Fixture: it creates an API context in background.
+    -----------------------------------------------------
+    """
+    return Api(analyst_context)
+
+
+@pytest.fixture(scope='module')
+def tools():
+    """ Fixture: it creates a Tools context in background.
+    -----------------------------------------------------
+    """
+    return Tools

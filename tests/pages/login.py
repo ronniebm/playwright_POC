@@ -1,16 +1,18 @@
-from playwright.sync_api import Page
-from tests.environment_vars import *
+from playwright.sync_api import Page, BrowserContext
+from tests.environment import *
 
 
 class LoginPage:
 
-    URL = f'{ENV_URL}/non-sso-login'
+    def __init__(self, context: BrowserContext) -> None:
+        self.PAGE = context.new_page()
+        self.CLOSE_PAGE = context.pages[0]
+        self.URL = f'{ENV_URL}/non-sso-login'
 
-    def __init__(self, page: Page) -> None:
-        self.PAGE = page
-        self.USERNAME_INPUT = page.locator('input[name=username]')
-        self.PASSWORD_INPUT = page.locator('input[name=password]')
-        self.SIGN_IN_BUTTON = page.locator('button[type=submit]')
+        # page locators.
+        self.USERNAME_INPUT = self.PAGE.locator('input[name=username]')
+        self.PASSWORD_INPUT = self.PAGE.locator('input[name=password]')
+        self.SIGN_IN_BUTTON = self.PAGE.locator('button[type=submit]')
 
     def load(self) -> None:
         self.PAGE.goto(self.URL)

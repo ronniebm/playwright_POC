@@ -1,5 +1,5 @@
 from playwright.sync_api import Page
-from tests.environment_vars import *
+from tests.environment import *
 
 
 class EntryStage:

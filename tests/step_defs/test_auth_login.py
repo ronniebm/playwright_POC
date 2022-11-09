@@ -5,7 +5,7 @@ from playwright.sync_api import BrowserContext
 from tests.pages.login import LoginPage
 from tests.pages.environment import EnvironmentPage
 from tests.pages.medi_entry_stage import EntryStage
-from tests.environment_vars import *
+from tests.environment import *
 
 # Scenarios
 scenarios('../features/login.feature')
