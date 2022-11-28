@@ -1,19 +1,26 @@
-from playwright.sync_api import Page
+from playwright.sync_api import BrowserContext
 from tests.environment import *
+from tests import Locators
 
 
-class EntryStage:
+class EntryStage(Locators):
 
-    URL = f'{ENV_URL}/medicaid/invoices/entry'
-
-    def __init__(self, page: Page) -> None:
-        self.PAGE = page
-        self.NEW_INVOICE_BUTTON = page.locator('#invoice-new-btn')
-        self.DELETE_INVOICE_BUTTON = page.locator('#invoice-delete-btn')
-        self.EXPORT_BUTTON = page.locator('button[title=Export]')
+    def __init__(self, context: BrowserContext) -> None:
+        super().__init__(context)
+        self.PAGE = context.pages[0] if context.pages else context.new_page()
+        self.URL = f'{ENV_URL}/medicaid/invoices/entry'
 
     def load(self) -> None:
         self.PAGE.goto("self.URL")
 
-    def create_new_invoice(self) -> None:
-        self.NEW_INVOICE_BUTTON.click()
+    def close(self) -> None:
+        self.PAGE.context.pages[0].close()
+
+    def click_new_invoice_btn(self) -> None:
+        self.LOCATORS.entry_stage_medi_page.click_new_invoice_btn()
+
+    def click_delete_invoice_btn(self) -> None:
+        self.LOCATORS.entry_stage_medi_page.click_delete_invoice_btn()
+
+    def click_export_btn(self) -> None:
+        self.LOCATORS.entry_stage_medi_page.click_export_btn()

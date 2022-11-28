@@ -1,10 +1,6 @@
-# import pytest
 from pytest_bdd import scenarios, given, when, then
-from playwright.sync_api import BrowserContext, Browser
-from tests.pages.products import ProductsPage
-
+from tests.pages import ProductsPage
 import time
-
 
 # Scenarios
 scenarios('../features/products.feature')
@@ -19,20 +15,23 @@ def step(analyst_context):
 
 
 @when('I add a new product manually')
-def step(analyst_context, api, tools):
+def step(analyst_context, manager_context):
+    # analyst_context.tracing.start(screenshots=True, snapshots=True)
     products_page = analyst_context.current_page
     products_page.click_add_new_product_btn()
-    products_page.MODAL_ADD_PRODUCT_click_cancel_btn()
+    products_page.fill_add_new_product_form()
+    products_page.modal_add_product.click_submit_btn()
+    # manager context example
+    products_page_manager = ProductsPage(manager_context)
+    products_page_manager.load()
     time.sleep(5)
-    # products_list = api.get_api_common_products(filter='ndc11')
-    # new_product = tools.generate_new_product(products_list)
-    # assert False, new_product
-    pass
-    # products_page.add_new_product()
-    # approvals_page = ApprovalsPage(products_page.go_to_approvals())
+    products_page_manager.close()
+    time.sleep(5)
+    # analyst_context.tracing.stop(path='trace-create-product-manually.zip')
+    analyst_context.current_page = products_page
 
 
-# @given('the products page')
-# def step_impl(login_context):
-#     products_page = ProductsPage(login_context)
-#     products_page.load()
+@then('I confirm the product was placed in "PENDING" status')
+def step(analyst_context):
+    products_page = analyst_context.current_page
+    analyst_context.current_page = products_page

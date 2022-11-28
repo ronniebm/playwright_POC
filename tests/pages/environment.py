@@ -1,22 +1,25 @@
-from playwright.sync_api import Page
+from playwright.sync_api import BrowserContext
 from tests.environment import *
+from tests import Locators
 
 
-class EnvironmentPage:
+class EnvironmentPage(Locators):
 
-    URL = f'{ENV_URL}/environment'
-
-    def __init__(self, page: Page) -> None:
-        self.PAGE = page
-        self.CLIENT_DD = page.locator('#client-selector')
-        self.SERVICE_AREA_DD = page.locator('#service-selector')
-        self.SUBMIT_BUTTON = page.locator('text=Submit')
+    def __init__(self, context: BrowserContext) -> None:
+        super().__init__(context)
+        self.PAGE = context.pages[0] if context.pages else context.new_page()
+        self.URL = f'{ENV_URL}/environment'
 
     def load(self) -> None:
         self.PAGE.goto(self.URL)
 
-    def set_client_and_service(self, client: str, service_area: str) -> Page:
-        self.CLIENT_DD.select_option(label=client)
-        self.SERVICE_AREA_DD.select_option(label=service_area)
-        self.SUBMIT_BUTTON.click()
-        return self.PAGE
+    def close(self) -> None:
+        self.PAGE.context.pages[0].close()
+
+    def select_client_and_service(self) -> None:
+        self.LOCATORS.environment_page.select_client()
+        self.LOCATORS.environment_page.select_service()
+
+    def click_submit_btn(self) -> BrowserContext:
+        self.LOCATORS.environment_page.click_submit_btn()
+        return self.PAGE.context

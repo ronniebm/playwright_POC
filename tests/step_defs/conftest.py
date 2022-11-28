@@ -28,21 +28,25 @@ def data_files_dir(tmpdir_factory):
 
 @pytest.fixture(scope='module')
 def analyst_context(browser: Browser):
-    """ Fixture: it creates an Analyst user context in background.
+    """ Fixture: it builds an Analyst user context in background.
     --------------------------------------------------------------
     """
     context = browser.new_context(viewport=VIEWPORT)
+    context.set_default_timeout(timeout=50000)
     context.request.post(USER_AUTH_URL, headers=HEADERS, data=ANALYST_DATA)
     context.request.post(ENV_AUTH_URL, headers=HEADERS, data=CLIENT_AND_SERVICE_DATA)
+    # context.tracing.start(screenshots=True, snapshots=True)
+    # context.tracing.stop(path='trace.zip')
     return context
 
 
 @pytest.fixture(scope='module')
 def manager_context(browser: Browser):
-    """ Fixture: it creates a Manager user context in background.
+    """ Fixture: it builds a Manager user context in background.
     -------------------------------------------------------------
     """
     context = browser.new_context(viewport=VIEWPORT)
+    context.set_default_timeout(timeout=50000)
     context.request.post(USER_AUTH_URL, headers=HEADERS, data=MANAGER_DATA)
     context.request.post(ENV_AUTH_URL, headers=HEADERS, data=CLIENT_AND_SERVICE_DATA)
     return context
@@ -50,7 +54,7 @@ def manager_context(browser: Browser):
 
 @pytest.fixture(scope='module')
 def api(analyst_context):
-    """ Fixture: it creates an API context in background.
+    """ Fixture: it builds an API context in background.
     -----------------------------------------------------
     """
     return Api(analyst_context)
@@ -58,7 +62,7 @@ def api(analyst_context):
 
 @pytest.fixture(scope='module')
 def tools():
-    """ Fixture: it creates a Tools context in background.
+    """ Fixture: it builds a Tools context in background.
     -----------------------------------------------------
     """
     return Tools
